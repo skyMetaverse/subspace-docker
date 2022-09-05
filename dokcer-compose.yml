@@ -1,0 +1,48 @@
+version: "3.7"
+services:
+  node:
+    image: ghcr.io/nazar-pc/node:snapshot-DATE
+    volumes:
+      - node-data:/var/subspace:rw
+    ports:
+      - "0.0.0.0:30333:30333"
+    restart: unless-stopped
+    command: [
+      "--chain", "lamda-2513",
+      "--base-path", "/var/subspace",
+      "--execution", "wasm",
+      "--state-pruning", "archive",
+      "--port", "30333",
+      "--rpc-cors", "all",
+      "--rpc-methods", "safe",
+      "--unsafe-ws-external",
+      "--validator",
+      "--name", "INSERT_YOUR_ID"
+    ]
+    healthcheck:
+      timeout: 5s
+      interval: 30s
+      retries: 5
+
+  farmer:
+    depends_on:
+      node:
+        condition: service_healthy
+    image: ghcr.io/nazar-pc/farmer:snapshot-DATE
+    volumes:
+      - farmer-data:/var/subspace:rw
+    ports:
+      - "0.0.0.0:40333:40333"
+    restart: unless-stopped
+    command: [
+      "--base-path", "/var/subspace",
+      "farm",
+      "--node-rpc-url", "ws://node:9944",
+      "--ws-server-listen-addr", "0.0.0.0:9955",
+      "--listen-on", "/ip4/0.0.0.0/tcp/40333",
+      "--reward-address", "WALLET_ADDRESS",
+      "--plot-size", "PLOT_SIZE"
+    ]
+volumes:
+  node-data:
+  farmer-data:
