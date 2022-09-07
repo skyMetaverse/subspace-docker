@@ -62,7 +62,7 @@ services:
       "--listen-on", "/ip4/0.0.0.0/tcp/40333",
 # Replace `WALLET_ADDRESS` with your Polkadot.js wallet address
       "--reward-address", "WALLET_ADDRESS",
-      "--plot-size", "100G"
+      "--plot-size", "PLOT_SIZE"
     ]
 volumes:
   node-data:
