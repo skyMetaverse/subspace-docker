@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   node:
-    image: ghcr.io/nazar-pc/node:gemini-2a-2022-sep-06
+    image: ghcr.io/subspace/node:snapshot-2022-sep-06
     volumes:
       - node-data:/var/subspace:rw
     ports:
@@ -28,7 +28,7 @@ services:
     depends_on:
       node:
         condition: service_healthy
-    image: ghcr.io/nazar-pc/farmer:gemini-2a-2022-sep-06
+    image: ghcr.io/subspace/farmer:snapshot-2022-sep-06
     volumes:
       - farmer-data:/var/subspace:rw
     ports:
